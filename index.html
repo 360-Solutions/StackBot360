@@ -319,7 +319,7 @@
         return new Date().toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
 
-    let app = JSON.parse(localStorage.getItem('stackBotV10x'));
+    let app = JSON.parse(localStorage.getItem('stackBotV1_0'));
     
     if (!app) {
         const defaultId = 'L' + Date.now();
@@ -329,8 +329,8 @@
             voice: true, speed: 1.0, tempo: 2, darkMode: false
         };
         app.lists[defaultId] = { 
-            name: templates.states.name, 
-            items: templates.states.data.split('\n'), 
+            name: templates.spanish.name, 
+            items: templates.spanish.data.split('\n'), 
             date: getTimestamp() 
         };
     }
@@ -349,7 +349,7 @@
     };
 
     function save() {
-        localStorage.setItem('stackBotV10x', JSON.stringify(app));
+        localStorage.setItem('stackBotV1_0', JSON.stringify(app));
         updateUI();
     }
 
@@ -509,7 +509,7 @@
     function loadTemplate(key) {
         const id = 'L' + Date.now();
         app.lists[id] = { 
-            name: templates[key].name + " (My Copy)", 
+            name: templates[key].name, 
             items: templates[key].data.split('\n'),
             date: getTimestamp() 
         };
