@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>StackBot360 by 360 Solutions</title>
     <style>
-        /* CSS VARIABLES & THEMES */
         :root {
             --bg-color: #f4f6f8;
             --panel-bg: #ffffff;
@@ -39,7 +38,6 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* STICKY HEADER & TAB NAVIGATION */
         .sticky-top {
             position: sticky;
             top: 0;
@@ -61,93 +59,67 @@
         .donation-links { text-align: right; display: flex; flex-direction: column; gap: 2px;}
         .donation-links a { font-size: 10px; color: var(--text-dark); text-decoration: none; font-weight: 300;}
 
-        /* THE TABS */
         .tab-bar {
             display: flex;
             border-bottom: 2px solid var(--border-color);
             background-color: var(--panel-bg);
         }
         .tab-btn {
-            flex: 1;
-            padding: 12px 5px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 900;
-            color: var(--text-dim);
-            border: none;
-            background: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            text-transform: uppercase;
+            flex: 1; padding: 12px 2px; text-align: center; font-size: 11px;
+            font-weight: 900; color: var(--text-dim); border: none;
+            background: none; border-bottom: 3px solid transparent; cursor: pointer; text-transform: uppercase;
         }
-        .tab-btn.active {
-            color: var(--brand-color);
-            border-bottom: 3px solid var(--brand-color);
-        }
+        .tab-btn.active { color: var(--brand-color); border-bottom: 3px solid var(--brand-color); }
 
-        /* MAIN CONTAINER */
         .view-container {
-            width: 100%; 
-            max-width: 400px; 
-            margin: 0 auto; 
-            display: none; 
-            flex-direction: column; 
-            gap: 15px;
-            padding: 15px;
-            box-sizing: border-box;
+            width: 100%; max-width: 400px; margin: 0 auto; display: none; 
+            flex-direction: column; padding: 15px; box-sizing: border-box;
         }
         
-        /* PLAY HUB STYLES */
         .play-hub-box {
-            background: var(--panel-bg);
-            border: 2px solid var(--brand-color);
-            border-radius: 12px;
-            padding: 30px 15px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-top: 20px;
+            background: var(--panel-bg); border: 2px solid var(--brand-color); border-radius: 12px;
+            padding: 30px 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-top: 10px;
         }
         .active-stack-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 900; letter-spacing: 1px;}
         .active-stack-name { font-size: 24px; font-weight: 900; color: var(--text-dark); margin: 10px 0 20px 0;}
 
-        /* INPUTS & BUTTONS */
         textarea, input[type="text"] {
-            width: 100%; padding: 15px; box-sizing: border-box;
+            width: 100%; padding: 10px; box-sizing: border-box;
             background: var(--bg-color); color: var(--text-dark);
-            border: 1px solid var(--border-color); border-radius: 8px; font-size: 16px;
-            font-family: inherit; margin-bottom: 10px;
+            border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px;
+            font-family: inherit; margin-bottom: 5px;
         }
         
-        #single-input { height: 60px; font-weight: 900; padding: 10px; font-size: 14px;}
-        #batch-input { font-size: 14px; white-space: pre-wrap; height: 300px; resize: none;}
+        #batch-input { font-size: 14px; white-space: pre-wrap; height: 280px; resize: none;}
         
-        .meta-input-group { display: flex; gap: 10px; }
-        .meta-input-group input { padding: 10px; font-size: 12px; }
-        #batch-title { flex: 2; font-weight: 900;}
-        #batch-date { flex: 1; text-align: center; color: var(--text-dim);}
+        .meta-input-group { display: flex; gap: 5px; margin-bottom: 5px;}
+        .meta-field { flex: 1; display: flex; flex-direction: column; }
+        .meta-field label { font-size: 9px; font-weight: 900; color: var(--brand-color); text-transform: uppercase; margin-bottom: 2px;}
+        #batch-title { font-weight: 900;}
+        #batch-date { text-align: center; color: var(--text-dim);}
 
         button {
-            border: none; border-radius: 8px; font-weight: 900; font-size: 14px;
-            padding: 15px; cursor: pointer; text-transform: uppercase;
-            width: 100%;
+            border: none; border-radius: 6px; font-weight: 900; font-size: 12px;
+            padding: 12px; cursor: pointer; text-transform: uppercase; width: 100%;
         }
 
         .btn-primary { background: var(--brand-color); color: white; }
         .btn-secondary { background: var(--bg-color); color: var(--text-dark); border: 1px solid var(--border-color); }
-        .btn-play { background: var(--success-color); color: white; padding: 20px; font-size: 20px; border-bottom: 4px solid #238636;}
+        .btn-play { background: var(--success-color); color: white; padding: 20px; font-size: 18px; border-bottom: 4px solid #238636;}
         .btn-danger { background: transparent; color: #cf222e; border: 1px solid #cf222e; }
 
-        .row-btns { display: flex; gap: 10px; flex-wrap: wrap;}
-        .row-btns button { flex: 1; padding: 10px; font-size: 12px;}
+        .row-btns { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 5px;}
+        .row-btns button { flex: 1; padding: 10px; font-size: 11px;}
 
-        /* VAULT & CARDS */
         .lib-section-title { font-size: 11px; font-weight: 900; color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px; margin-top: 5px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
-        .library-list { display: flex; flex-direction: column; gap: 12px; }
-        .lib-item { background: var(--panel-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 8px; text-align: left; color: var(--text-dark);}
-        .lib-title { font-size: 16px; font-weight: 900; color: var(--brand-color);}
-        .lib-desc { font-size: 11px; color: var(--text-dim); margin-top: 5px;}
         
-        .vault-actions { display: flex; gap: 5px; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 10px;}
+        .scrollable-list { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; margin-bottom: 10px;}
+        
+        .lib-item { background: var(--panel-bg); border: 2px solid var(--border-color); padding: 12px; border-radius: 8px; text-align: left; color: var(--text-dark);}
+        .lib-title { font-size: 16px; font-weight: 900; color: var(--brand-color);}
+        .lib-desc { font-size: 11px; color: var(--text-dim); margin-top: 3px;}
+        
+        .vault-actions { display: flex; gap: 5px; margin-top: 8px; border-top: 1px solid var(--border-color); padding-top: 8px;}
         .vault-actions button { padding: 8px; font-size: 10px; background: var(--bg-color); border: 1px solid var(--border-color);}
 
         .card {
@@ -160,7 +132,12 @@
         .settings-panel { background: var(--panel-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 15px; font-size: 12px; font-weight: 900; color: var(--text-dim);}
         input[type=range] { width: 100%; accent-color: var(--brand-color); margin-top: 5px; margin-bottom: 15px;}
         
-        .editor-section-label { font-size: 10px; font-weight: 900; color: var(--brand-color); text-transform: uppercase; margin-bottom: 5px; margin-top: 10px;}
+        .editor-section-label { font-size: 10px; font-weight: 900; color: var(--brand-color); text-transform: uppercase; margin-bottom: 2px; margin-top: 5px;}
+        
+        .about-text { font-size: 13px; line-height: 1.5; color: var(--text-dark); background: var(--panel-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 15px;}
+        .about-text h2 { margin-top: 0; color: var(--brand-color); font-size: 18px;}
+        .about-text h3 { margin-bottom: 5px; font-size: 14px;}
+        .about-text p { margin-top: 0; margin-bottom: 15px;}
     </style>
 </head>
 <body>
@@ -173,8 +150,8 @@
             </div>
             <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
             <div class="donation-links">
-                <a href="#" target="_blank">Buy Me a Coffee</a>
-                <a href="#" target="_blank">Ko-fi</a>
+                <a href="https://www.buymeacoffee.com/360solutions" target="_blank">☕ Buy Me a Coffee</a>
+                <a href="https://ko-fi.com/360solutions" target="_blank">☕ Ko-fi</a>
             </div>
         </div>
         
@@ -182,6 +159,7 @@
             <button id="tab-play" class="tab-btn active" onclick="switchTab('play')">Play Hub</button>
             <button id="tab-vault" class="tab-btn" onclick="switchTab('vault')">Vault</button>
             <button id="tab-editor" class="tab-btn" onclick="switchTab('editor')">Editor</button>
+            <button id="tab-about" class="tab-btn" onclick="switchTab('about')">About</button>
         </div>
     </div>
 
@@ -189,7 +167,7 @@
         <div class="play-hub-box">
             <div class="active-stack-label">Currently Loaded Stack:</div>
             <div id="active-list-title-display" class="active-stack-name">Loading...</div>
-            <button class="btn-play" id="start-btn" onclick="startReviewMode()">▶ START BOT</button>
+            <button class="btn-play" id="start-btn" onclick="startReviewMode()">▶ START THIS BOT (0 cards)</button>
         </div>
         <div style="text-align: center; font-size: 12px; color: var(--text-dim); margin-top: 10px;">
             Tap the Vault tab to load a different stack.
@@ -198,35 +176,43 @@
 
     <div id="view-vault" class="view-container">
         <div class="lib-section-title">Your Saved Stacks</div>
-        <div id="user-lists-container" class="library-list"></div>
+        <div id="user-lists-container" class="scrollable-list"></div>
         
         <div class="lib-section-title">StackBot360 Premade Stacks</div>
-        <div class="library-list">
-            <div class="lib-item" onclick="loadTemplate('states')" style="cursor:pointer;">
+        <div class="scrollable-list">
+            <div class="lib-item">
                 <div class="lib-title">50 States & Capitals</div><div class="lib-desc">US Geography Default</div>
+                <div class="vault-actions">
+                    <button onclick="loadTemplate('states')">Load</button>
+                    <button onclick="editTemplate('states')">Edit</button>
+                </div>
             </div>
-            <div class="lib-item" onclick="loadTemplate('presidents')" style="cursor:pointer;">
+            <div class="lib-item">
                 <div class="lib-title">US Presidents</div><div class="lib-desc">1 to 47 Chronological</div>
+                <div class="vault-actions">
+                    <button onclick="loadTemplate('presidents')">Load</button>
+                    <button onclick="editTemplate('presidents')">Edit</button>
+                </div>
             </div>
         </div>
 
-        <button class="btn-primary" onclick="createNewList()" style="margin-top:20px;">＋ CREATE NEW STACK</button>
+        <button class="btn-primary" onclick="createNewList()">＋ CREATE NEW STACK</button>
     </div>
 
     <div id="view-editor" class="view-container">
         
         <div class="meta-input-group">
-            <input type="text" id="batch-title" placeholder="Stack Title">
-            <input type="text" id="batch-date" placeholder="Date & Time" readonly>
+            <div class="meta-field">
+                <label>Stack Title</label>
+                <input type="text" id="batch-title" placeholder="Title">
+            </div>
+            <div class="meta-field">
+                <label>Date & Time</label>
+                <input type="text" id="batch-date" placeholder="Timestamp" readonly>
+            </div>
         </div>
         
-        <div class="editor-section-label">Quick Append (Single Card)</div>
-        <div style="display: flex; gap: 10px;">
-            <input type="text" id="single-input" placeholder="Type phrase here...">
-            <button class="btn-secondary" onclick="saveSingleMemo()" style="width: 80px; padding: 10px;">ADD</button>
-        </div>
-        
-        <div class="editor-section-label">Batch Data</div>
+        <div class="editor-section-label">Batch Data (Flashcards)</div>
         <textarea id="batch-input" placeholder="Paste your massive list here, one item per line."></textarea>
         
         <div class="row-btns">
@@ -235,12 +221,32 @@
             <button class="btn-secondary" onclick="sortBatch('reverse')">Reverse</button>
         </div>
         
-        <button class="btn-primary" onclick="saveBatch()" style="margin-top: 10px;">💾 SAVE CHANGES TO STACK</button>
-        <button class="btn-secondary" onclick="saveAsNew()" style="border-color: var(--brand-color); color: var(--brand-color); margin-top: 10px;">📄 SAVE AS A NEW COPY</button>
+        <div class="row-btns">
+            <button class="btn-secondary" onclick="copyBatchToClipboard()">📋 COPY</button>
+            <button class="btn-secondary" onclick="pasteToEditor()">📋 PASTE APPEND</button>
+            <button class="btn-danger" onclick="clearBatchArea()">CLEAR BOX</button>
+        </div>
         
-        <div class="row-btns" style="margin-top: 10px;">
-            <button class="btn-secondary" onclick="copyBatchToClipboard()">📋 Copy List</button>
-            <button class="btn-danger" onclick="clearBatchArea()">Clear Box</button>
+        <div style="height: 10px;"></div>
+        
+        <button class="btn-primary" onclick="saveBatch()" style="margin-bottom: 5px;">💾 SAVE CHANGES TO STACK</button>
+        <button class="btn-secondary" onclick="saveAsNew()" style="border-color: var(--brand-color); color: var(--brand-color);">📄 SAVE AS A NEW COPY</button>
+    </div>
+
+    <div id="view-about" class="view-container">
+        <div class="about-text">
+            <h2>StackBot360 v1.0</h2>
+            <span style="font-size: 11px; color: var(--text-dim); display: block; margin-bottom: 15px;">Created by Jeremiah Keller | 360 Solutions<br>jk.360.workspace@gmail.com</span>
+            
+            <p>StackBot360 is a free, experimental mobile-first study engine. If it helps you learn, consider dropping a tip in the Ko-fi or Buy Me a Coffee links at the top!</p>
+
+            <h3>The Batch Learning Engine</h3>
+            <p>Most flashcard apps make you type out cards one by one. StackBot360 lets you paste massive lists of data directly into the Editor. Whether it is an AI-generated list of Spanish vocabulary, OCR text from a science textbook, or a lecture glossary, if it is separated by a line break, the Bot will read it.</p>
+
+            <h3>The "Sleep & Jog" Hack</h3>
+            <p>Because StackBot360 waits for the system text-to-speech voice to finish reading before moving to the next card, it creates a hands-free learning loop. You can adjust the tempo, press play, and let the Bot drill information into your ears while you jog, commute, or go to sleep.</p>
+            
+            <p style="font-size: 11px; font-style: italic;">Note: To improve the robot voice quality, go to your iOS Settings > Accessibility > Spoken Content > Voices and download a premium voice package.</p>
         </div>
     </div>
 
@@ -266,10 +272,6 @@
             
             <div style="display: flex; justify-content: space-between;"><span>Bot Tempo (Wait Time)</span><span id="tempo-val">3s</span></div>
             <input type="range" id="tempo-slider" min="1" max="15" value="3" oninput="updateTempo(this.value)">
-            
-            <div style="text-align: center; margin-top: 15px; font-weight: normal; font-size: 10px;">
-                Tip: Upgrade voice in iPhone Settings: Accessibility > Spoken Content > Voices
-            </div>
         </div>
     </div>
 
@@ -289,7 +291,7 @@
         return new Date().toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
 
-    let app = JSON.parse(localStorage.getItem('stackBotV9')) || {
+    let app = JSON.parse(localStorage.getItem('stackBotV10')) || {
         activeId: 'default',
         lists: { 'default': { name: "My First Stack", items: [], date: getTimestamp() } },
         voice: true, speed: 1.0, tempo: 3, darkMode: false
@@ -309,7 +311,7 @@
     };
 
     function save() {
-        localStorage.setItem('stackBotV9', JSON.stringify(app));
+        localStorage.setItem('stackBotV10', JSON.stringify(app));
         updateUI();
     }
 
@@ -323,7 +325,7 @@
         if (!app.lists[app.activeId]) { app.activeId = Object.keys(app.lists)[0]; }
         const active = app.lists[app.activeId];
         document.getElementById('active-list-title-display').innerText = active.name;
-        document.getElementById('start-btn').innerText = `▶ START BOT (${active.items.length})`;
+        document.getElementById('start-btn').innerText = `▶ START THIS BOT (${active.items.length} cards)`;
         
         document.getElementById('batch-title').value = active.name;
         document.getElementById('batch-date').value = active.date;
@@ -332,24 +334,45 @@
 
     function switchTab(tabName) {
         document.querySelectorAll('.view-container').forEach(v => v.style.display = 'none');
-        document.getElementById('view-' + tabName).style.display = 'flex';
+        const view = document.getElementById('view-' + tabName);
+        view.style.display = 'flex';
         
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('tab-' + tabName).classList.add('active');
         
         window.scrollTo(0, 0);
+        view.scrollTop = 0; 
+        
         if (tabName === 'vault') renderLib();
         if (tabName === 'editor') updateUI(); 
     }
 
-    function saveSingleMemo() {
-        const val = document.getElementById('single-input').value.trim();
-        if (val) {
-            app.lists[app.activeId].items.push(val);
-            app.lists[app.activeId].date = getTimestamp();
-            save();
-            document.getElementById('single-input').value = '';
-            alert("Added to stack!");
+    function processPastedSharedText(text) {
+        let lines = text.split('\n');
+        let newItems = [];
+        
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            if(line.toLowerCase().startsWith('title:')) continue;
+            if(line.toLowerCase().startsWith('timestamp:')) continue;
+            if(line.toLowerCase().startsWith('date:')) continue;
+            if(line !== "") newItems.push(line);
+        }
+        return newItems.join('\n');
+    }
+
+    async function pasteToEditor() {
+        try {
+            const text = await navigator.clipboard.readText();
+            const cleanText = processPastedSharedText(text);
+            const box = document.getElementById('batch-input');
+            if (box.value.trim() === "") {
+                box.value = cleanText;
+            } else {
+                box.value += '\n' + cleanText;
+            }
+        } catch (e) {
+            alert("Your browser blocked auto-paste. Please tap inside the text box and use the standard iOS Paste button.");
         }
     }
 
@@ -387,14 +410,13 @@
             b.className = 'lib-item';
             
             b.innerHTML = `
-                <div>
-                    <div class="lib-title">${item.name}</div>
-                    <div class="lib-desc">${item.items.length} cards • Last Edit: ${item.date}</div>
-                    <div class="vault-actions">
-                        <button onclick="loadFromVault('${id}')">Load</button>
-                        <button onclick="shareFromVault('${id}')">Share/Copy</button>
-                        <button onclick="deleteFromVault('${id}')" style="color:#cf222e; border-color:#cf222e;">Delete</button>
-                    </div>
+                <div class="lib-title">${item.name}</div>
+                <div class="lib-desc">${item.items.length} cards • Last Edit: ${item.date}</div>
+                <div class="vault-actions">
+                    <button onclick="loadFromVault('${id}')">Load</button>
+                    <button onclick="editFromVault('${id}')">Edit</button>
+                    <button onclick="shareFromVault('${id}')">Share</button>
+                    <button onclick="deleteFromVault('${id}')" style="color:#cf222e; border-color:#cf222e;">Delete</button>
                 </div>
             `;
             container.appendChild(b);
@@ -407,9 +429,15 @@
         switchTab('play');
     }
 
+    function editFromVault(id) {
+        app.activeId = id;
+        save();
+        switchTab('editor');
+    }
+
     function shareFromVault(id) {
         const stack = app.lists[id];
-        const shareText = `Title: ${stack.name}\nDate: ${stack.date}\n\n${stack.items.join('\n')}`;
+        const shareText = `Title: ${stack.name}\nTimestamp: ${stack.date}\n\n${stack.items.join('\n')}`;
         
         if (navigator.share) {
             navigator.share({ title: stack.name, text: shareText }).catch(err => console.log(err));
@@ -454,6 +482,11 @@
         switchTab('play');
     }
 
+    function editTemplate(key) {
+        loadTemplate(key);
+        switchTab('editor');
+    }
+
     function startReviewMode() {
         if (!app.lists[app.activeId].items.length) {
             alert("This stack is empty! Go to Editor to add items.");
@@ -491,7 +524,6 @@
         const txt = history[hIndex];
         document.getElementById('card-term-text').innerText = txt;
         
-        // Auto-scroll long text to top when new card loads
         document.querySelector('.card').scrollTop = 0; 
         
         if (app.voice) {
@@ -536,7 +568,7 @@
         const title = document.getElementById('batch-title').value;
         const date = document.getElementById('batch-date').value;
         const items = document.getElementById('batch-input').value;
-        const fullText = `Title: ${title}\nDate: ${date}\n\n${items}`;
+        const fullText = `Title: ${title}\nTimestamp: ${date}\n\n${items}`;
         
         navigator.clipboard.writeText(fullText).then(() => {
             alert("Stack copied to clipboard! Ready to share.");
