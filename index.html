@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>StackBot360 by 360 Solutions</title>
+    <title>StackBot360 by Jeremiah Keller</title>
     <style>
         :root {
             --bg-color: #f4f6f8;
@@ -146,12 +146,12 @@
         <div class="header-top-row">
             <div class="header-left">
                 <h1>StackBot360</h1>
-                <div class="brand-tag">By 360 Solutions</div>
+                <div class="brand-tag">By Jeremiah Keller</div>
             </div>
             <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
             <div class="donation-links">
-                <a href="https://www.buymeacoffee.com/360solutions" target="_blank">Buy Me a Coffee</a>
-                <a href="https://ko-fi.com/360solutions" target="_blank">Ko-fi</a>
+                <a href="https://www.buymeacoffee.com/360solutions" target="_blank">☕️ Buy Me a Coffee</a>
+                <a href="https://ko-fi.com/360solutions" target="_blank">☕️ Ko-fi</a>
             </div>
         </div>
         
@@ -240,12 +240,18 @@
 
             <h3>The Batch Learning Engine</h3>
             <p>Most flashcard apps make you type out cards one by one. StackBot360 lets you paste massive lists of data directly into the Editor. A stack is basically a Text list. Whether it is an AI-generated list of Spanish vocabulary, OCR text from a science textbook, or a lecture glossary, if it is separated by a line break, the Bot will read it as separate flashcards.</p>
-            <p>You can easily ask your favorite AI to format a list of almost anything you are studying. Or create a simple line by line list yourself in any text editor. You can also easily share and import lists from your fellow students, coworkers, etc, because they are basically just a simple text list. The program will designate the first two lines of the stack to be reserved as the title of the stack and the date and timestamp of the stacks last save.</p>
+            <p>You can easily ask your favorite AI to format a list of almost anything you are studying. Or create a simple line by line list yourself in any text editor. You can also easily share and import lists from your fellow students, coworkers, etc, because they are basically just a simple text list. The program will designate the first two lines of the stack to be reserved as the title of the stack and the date and timestamp of the stack's last save.</p>
 
-            <h3>The "Sleep & Jog" Hack</h3>
-            <p>By default, the program will read these flashcards to you with the internal text to voice of your device. Because StackBot360 waits for the system text-to-speech voice to finish reading before moving to the next card, it creates a hands-free learning loop. You can adjust the tempo, press play, and let the Bot drill information into your ears while you jog, commute, or go to sleep.</p>
-            <p>Note: To improve the robot voice quality, go to your iOS Settings > Accessibility > Spoken Content > Voices and download a premium voice package.</p>
+            <h3>The Hands-Free Learning Hack</h3>
+            <p>By default, the program will read these flashcards to you with the internal text to voice of your device. Because StackBot360 waits for the system text-to-speech voice to finish reading before moving to the next card, it creates a hands-free learning loop. You can adjust the tempo, press play, and let the Bot drill information into your ears while you listen and memorize while you do other things like chores, commuting, relaxing, or sleep-learning.</p>
             
+            <div style="background: var(--bg-color); padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 15px; border: 1px solid var(--border-color);">
+                <b>Note: To improve the robot voice quality:</b><br>
+                • <b>iPhone Users:</b> Go to iOS Settings > Accessibility > Spoken Content > Voices and download a premium voice package.<br>
+                • <b>Android Users:</b> Go to Settings > Accessibility > Text-to-speech output to install preferred engine voices.<br>
+                • <b>Computer Users:</b> Your browser uses your operating system's default voices (check Windows Narrator or Mac Accessibility settings).
+            </div>
+
             <h3>Development Notes</h3>
             <p>StackBot360 is a free, experimental mobile-first study engine. It is not intended to be a high end professional program like you would purchase at the Apple Store or Google Play. It is basically just a webpage with some clever JavaScript programming that I have built with the help of Google Gemini pro 3.1. Using only my iPhone 11 Pro Max. After a 15 year hiatus from building websites for local businesses and music bands, I have recently rediscovered my love for creating code and this time taking advantage of AI to help me build fast, easy access and free tools that hopefully help people.</p>
             <p>I do not have a big budget and I am not able to test on every possible device out there so feel free to email me comments, or suggestions or if you run into any bugs. I have done most of my testing with my iPhone 11 and an android BLU v5.</p>
@@ -258,8 +264,10 @@
     </div>
 
     <div id="playback-overlay" class="view-container" style="position: fixed; top: 0; left: 0; height: 100vh; width: 100vw; background: var(--bg-color); z-index: 200; overflow-y: auto; padding-top: max(15px, env(safe-area-inset-top));">
+        
         <div style="display:flex; justify-content: space-between; align-items: center;">
             <button class="btn-secondary" onclick="exitReviewMode()" style="width:auto; padding: 10px 20px;">BACK TO MENU</button>
+            <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
             <div id="timer-text" style="font-weight:900; color:var(--brand-color); font-size:24px;">3s</div>
         </div>
         
