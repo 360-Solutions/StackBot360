@@ -150,8 +150,8 @@
             </div>
             <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
             <div class="donation-links">
-                <a href="https://www.buymeacoffee.com/360solutions" target="_blank">☕ Buy Me a Coffee</a>
-                <a href="https://ko-fi.com/360solutions" target="_blank">☕ Ko-fi</a>
+                <a href="https://www.buymeacoffee.com/360solutions" target="_blank">Buy Me a Coffee</a>
+                <a href="https://ko-fi.com/360solutions" target="_blank">Ko-fi</a>
             </div>
         </div>
         
@@ -203,11 +203,11 @@
         
         <div class="meta-input-group">
             <div class="meta-field">
-                <label>Stack Title</label>
+                <label>Title</label>
                 <input type="text" id="batch-title" placeholder="Title">
             </div>
             <div class="meta-field">
-                <label>Date & Time</label>
+                <label>Timestamp</label>
                 <input type="text" id="batch-date" placeholder="Timestamp" readonly>
             </div>
         </div>
@@ -236,17 +236,24 @@
     <div id="view-about" class="view-container">
         <div class="about-text">
             <h2>StackBot360 v1.0</h2>
-            <span style="font-size: 11px; color: var(--text-dim); display: block; margin-bottom: 15px;">Created by Jeremiah Keller | 360 Solutions<br>jk.360.workspace@gmail.com</span>
-            
-            <p>StackBot360 is a free, experimental mobile-first study engine. If it helps you learn, consider dropping a tip in the Ko-fi or Buy Me a Coffee links at the top!</p>
+            <p>Created by Jeremiah Keller | 360 Solutions<br>jk.360.workspace@gmail.com</p>
 
             <h3>The Batch Learning Engine</h3>
-            <p>Most flashcard apps make you type out cards one by one. StackBot360 lets you paste massive lists of data directly into the Editor. Whether it is an AI-generated list of Spanish vocabulary, OCR text from a science textbook, or a lecture glossary, if it is separated by a line break, the Bot will read it.</p>
+            <p>Most flashcard apps make you type out cards one by one. StackBot360 lets you paste massive lists of data directly into the Editor. A stack is basically a Text list. Whether it is an AI-generated list of Spanish vocabulary, OCR text from a science textbook, or a lecture glossary, if it is separated by a line break, the Bot will read it as separate flashcards.</p>
+            <p>You can easily ask your favorite AI to format a list of almost anything you are studying. Or create a simple line by line list yourself in any text editor. You can also easily share and import lists from your fellow students, coworkers, etc, because they are basically just a simple text list. The program will designate the first two lines of the stack to be reserved as the title of the stack and the date and timestamp of the stacks last save.</p>
 
             <h3>The "Sleep & Jog" Hack</h3>
-            <p>Because StackBot360 waits for the system text-to-speech voice to finish reading before moving to the next card, it creates a hands-free learning loop. You can adjust the tempo, press play, and let the Bot drill information into your ears while you jog, commute, or go to sleep.</p>
+            <p>By default, the program will read these flashcards to you with the internal text to voice of your device. Because StackBot360 waits for the system text-to-speech voice to finish reading before moving to the next card, it creates a hands-free learning loop. You can adjust the tempo, press play, and let the Bot drill information into your ears while you jog, commute, or go to sleep.</p>
+            <p>Note: To improve the robot voice quality, go to your iOS Settings > Accessibility > Spoken Content > Voices and download a premium voice package.</p>
             
-            <p style="font-size: 11px; font-style: italic;">Note: To improve the robot voice quality, go to your iOS Settings > Accessibility > Spoken Content > Voices and download a premium voice package.</p>
+            <h3>Development Notes</h3>
+            <p>StackBot360 is a free, experimental mobile-first study engine. It is not intended to be a high end professional program like you would purchase at the Apple Store or Google Play. It is basically just a webpage with some clever JavaScript programming that I have built with the help of Google Gemini pro 3.1. Using only my iPhone 11 Pro Max. After a 15 year hiatus from building websites for local businesses and music bands, I have recently rediscovered my love for creating code and this time taking advantage of AI to help me build fast, easy access and free tools that hopefully help people.</p>
+            <p>I do not have a big budget and I am not able to test on every possible device out there so feel free to email me comments, or suggestions or if you run into any bugs. I have done most of my testing with my iPhone 11 and an android BLU v5.</p>
+
+            <p>Here is a link to my portfolio where I plan to add more tools for anybody to check out and use:<br>
+            <a href="https://360-solutions.github.io/" target="_blank">360 Solutions Portfolio</a></p>
+
+            <p>StackBot360 v1.0 is totally free, but any financial support is greatly appreciated. I have links to my tip jar in the Ko-fi or Buy Me a Coffee links at the top!</p>
         </div>
     </div>
 
@@ -291,11 +298,21 @@
         return new Date().toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
 
-    let app = JSON.parse(localStorage.getItem('stackBotV10')) || {
-        activeId: 'default',
-        lists: { 'default': { name: "My First Stack", items: [], date: getTimestamp() } },
-        voice: true, speed: 1.0, tempo: 3, darkMode: false
-    };
+    let app = JSON.parse(localStorage.getItem('stackBotV10x'));
+    
+    if (!app) {
+        const defaultId = 'L' + Date.now();
+        app = {
+            activeId: defaultId,
+            lists: {},
+            voice: true, speed: 1.0, tempo: 3, darkMode: false
+        };
+        app.lists[defaultId] = { 
+            name: templates.states.name, 
+            items: templates.states.data.split('\n'), 
+            date: getTimestamp() 
+        };
+    }
 
     let deck = [], history = [], hIndex = -1, timer = null, isPaused = false, countdown = app.tempo;
 
@@ -311,7 +328,7 @@
     };
 
     function save() {
-        localStorage.setItem('stackBotV10', JSON.stringify(app));
+        localStorage.setItem('stackBotV10x', JSON.stringify(app));
         updateUI();
     }
 
@@ -492,6 +509,9 @@
             alert("This stack is empty! Go to Editor to add items.");
             return;
         }
+        
+        window.speechSynthesis.cancel();
+        
         document.getElementById('playback-overlay').style.display = 'flex';
         deck = [...app.lists[app.activeId].items].sort(() => Math.random() - 0.5);
         history = []; hIndex = -1; isPaused = false;
