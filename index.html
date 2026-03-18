@@ -81,7 +81,7 @@
             padding: 30px 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-top: 10px;
         }
         .active-stack-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 900; letter-spacing: 1px;}
-        .active-stack-name { font-size: 24px; font-weight: 900; color: var(--text-dark); margin: 10px 0 20px 0;}
+        .active-stack-name { font-size: 24px; font-weight: 900; color: var(--text-dark); margin: 10px 0 20px 0; word-wrap: break-word; line-height: 1.2;}
 
         textarea, input[type="text"] {
             width: 100%; padding: 10px; box-sizing: border-box;
@@ -116,7 +116,7 @@
         .scrollable-list { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; margin-bottom: 10px;}
         
         .lib-item { background: var(--panel-bg); border: 2px solid var(--border-color); padding: 12px; border-radius: 8px; text-align: left; color: var(--text-dark);}
-        .lib-title { font-size: 16px; font-weight: 900; color: var(--brand-color);}
+        .lib-title { font-size: 16px; font-weight: 900; color: var(--brand-color); word-wrap: break-word;}
         .lib-desc { font-size: 11px; color: var(--text-dim); margin-top: 3px;}
         
         .vault-actions { display: flex; gap: 5px; margin-top: 8px; border-top: 1px solid var(--border-color); padding-top: 8px;}
@@ -181,6 +181,13 @@
         <div class="lib-section-title">StackBot360 Premade Stacks</div>
         <div class="scrollable-list">
             <div class="lib-item">
+                <div class="lib-title">200 Spanish Phrases</div><div class="lib-desc">English Conversions</div>
+                <div class="vault-actions">
+                    <button onclick="loadTemplate('spanish')">Load</button>
+                    <button onclick="editTemplate('spanish')">Edit</button>
+                </div>
+            </div>
+            <div class="lib-item">
                 <div class="lib-title">50 States & Capitals</div><div class="lib-desc">US Geography Default</div>
                 <div class="vault-actions">
                     <button onclick="loadTemplate('states')">Load</button>
@@ -196,10 +203,12 @@
             </div>
         </div>
 
-        <button class="btn-primary" onclick="createNewList()">＋ CREATE NEW STACK</button>
+        <button class="btn-primary" onclick="startBlankStack()">＋ CREATE NEW STACK</button>
     </div>
 
     <div id="view-editor" class="view-container">
+        
+        <button class="btn-primary" onclick="startBlankStack()" style="margin-bottom: 15px;">＋ START BLANK STACK</button>
         
         <div class="meta-input-group">
             <div class="meta-field">
@@ -208,7 +217,7 @@
             </div>
             <div class="meta-field">
                 <label>Timestamp</label>
-                <input type="text" id="batch-date" placeholder="Timestamp" readonly>
+                <input type="text" id="batch-date" placeholder="Unsaved" readonly>
             </div>
         </div>
         
@@ -239,21 +248,21 @@
             <p>Created by Jeremiah Keller | 360 Solutions<br>jk.360.workspace@gmail.com</p>
 
             <h3>The Batch Learning Engine</h3>
-            <p>Most flashcard apps make you type out cards one by one. StackBot360 lets you paste massive lists of data directly into the Editor. A stack is basically a Text list. Whether it is an AI-generated list of Spanish vocabulary, OCR text from a science textbook, or a lecture glossary, if it is separated by a line break, the Bot will read it as separate flashcards.</p>
+            <p>Most flashcard apps make you type out cards one by one. StackBot360 lets you paste massive lists of data directly into the Editor. A stack is basically a text list. Whether it is an AI-generated list of Spanish vocabulary, OCR text from a science textbook, or a lecture glossary, if it is separated by a line break, the Bot will read it as separate flashcards.</p>
             <p>You can easily ask your favorite AI to format a list of almost anything you are studying. Or create a simple line by line list yourself in any text editor. You can also easily share and import lists from your fellow students, coworkers, etc, because they are basically just a simple text list. The program will designate the first two lines of the stack to be reserved as the title of the stack and the date and timestamp of the stack's last save.</p>
 
             <h3>The Hands-Free Learning Hack</h3>
             <p>By default, the program will read these flashcards to you with the internal text to voice of your device. Because StackBot360 waits for the system text-to-speech voice to finish reading before moving to the next card, it creates a hands-free learning loop. You can adjust the tempo, press play, and let the Bot drill information into your ears while you listen and memorize while you do other things like chores, commuting, relaxing, or sleep-learning.</p>
             
             <div style="background: var(--bg-color); padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 15px; border: 1px solid var(--border-color);">
-                <b>Note: To improve the robot voice quality:</b><br>
-                • <b>iPhone Users:</b> Go to iOS Settings > Accessibility > Spoken Content > Voices and download a premium voice package.<br>
-                • <b>Android Users:</b> Go to Settings > Accessibility > Text-to-speech output to install preferred engine voices.<br>
-                • <b>Computer Users:</b> Your browser uses your operating system's default voices (check Windows Narrator or Mac Accessibility settings).
+                Note: To improve the robot voice quality:<br>
+                • iPhone Users: Go to iOS Settings > Accessibility > Spoken Content > Voices and download a premium voice package.<br>
+                • Android Users: Go to Settings > Accessibility > Text-to-speech output to install preferred engine voices.<br>
+                • Computer Users: Your browser uses your operating system's default voices.
             </div>
 
             <h3>Development Notes</h3>
-            <p>StackBot360 is a free, experimental mobile-first study engine. It is not intended to be a high end professional program like you would purchase at the Apple Store or Google Play. It is basically just a webpage with some clever JavaScript programming that I have built with the help of Google Gemini pro 3.1. Using only my iPhone 11 Pro Max. After a 15 year hiatus from building websites for local businesses and music bands, I have recently rediscovered my love for creating code and this time taking advantage of AI to help me build fast, easy access and free tools that hopefully help people.</p>
+            <p>StackBot360 is a free, experimental mobile-first study engine. It is not intended to be a high end professional program like you would purchase at the Apple Store or Google Play. It is basically just a webpage with some clever JavaScript programming that I have built with the help of Google Gemini pro 3.1. Using only my iPhone 11 Pro Max. After a 10 year hiatus from building websites for local businesses and music bands, I have recently rediscovered my love for creating code and this time taking advantage of AI to help me build fast, easy access and free tools that hopefully help people.</p>
             <p>I do not have a big budget and I am not able to test on every possible device out there so feel free to email me comments, or suggestions or if you run into any bugs. I have done most of my testing with my iPhone 11 and an android BLU v5.</p>
 
             <p>Here is a link to my portfolio where I plan to add more tools for anybody to check out and use:<br>
@@ -268,7 +277,7 @@
         <div style="display:flex; justify-content: space-between; align-items: center;">
             <button class="btn-secondary" onclick="exitReviewMode()" style="width:auto; padding: 10px 20px;">BACK TO MENU</button>
             <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
-            <div id="timer-text" style="font-weight:900; color:var(--brand-color); font-size:24px;">3s</div>
+            <div id="timer-text" style="font-weight:900; color:var(--brand-color); font-size:24px;">2s</div>
         </div>
         
         <div class="card"><div id="card-term-text" class="card-term">...</div></div>
@@ -285,13 +294,17 @@
             <div style="display: flex; justify-content: space-between;"><span>Voice Speed</span><span id="speed-val">1x</span></div>
             <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="updateSpeed(this.value)">
             
-            <div style="display: flex; justify-content: space-between;"><span>Bot Tempo (Wait Time)</span><span id="tempo-val">3s</span></div>
-            <input type="range" id="tempo-slider" min="1" max="15" value="3" oninput="updateTempo(this.value)">
+            <div style="display: flex; justify-content: space-between;"><span>Bot Tempo (Wait Time)</span><span id="tempo-val">2s</span></div>
+            <input type="range" id="tempo-slider" min="1" max="15" value="2" oninput="updateTempo(this.value)">
         </div>
     </div>
 
 <script>
     const templates = {
+        spanish: {
+            name: "200 Spanish Phrases",
+            data: "hola,, hello or hi\nbuenos días,, good morning\nbuenas tardes,, good afternoon\nbuenas noches,, good evening or good night\n¿cómo estás?,, how are you\n¿qué tal?,, what's up\nmuy bien,, very well\ngracias,, thank you\nmuchas gracias,, thank you very much\nde nada,, you are welcome\npor favor,, please\nlo siento,, I am sorry\nperdón,, excuse me or pardon\ndisculpe,, excuse me for formal situations\nno hay problema,, no problem\nno importa,, it does not matter\n¿cómo te llamas?,, what is your name\nmucho gusto,, nice to meet you\nencantado,, delighted to meet you\n¿de dónde eres?,, where are you from\nsoy de,, I am from\n¿qué hora es?,, what time is it\ntengo hambre,, I am hungry\ntengo sed,, I am thirsty\ntengo calor,, I am hot\ntengo frío,, I am cold\ntengo sueño,, I am sleepy\ntengo razón,, I am right\nno tengo idea,, I have no idea\n¿qué pasa?,, what is happening\n¿qué haces?,, what are you doing\nno entiendo,, I do not understand\nno sé,, I do not know\nhable más despacio,, speak more slowly\nrepita por favor,, repeat please\n¿cómo se dice?,, how do you say it\n¿qué significa?,, what does it mean\nhablo un poco de español,, I speak a little Spanish\n¿hablas inglés?,, do you speak english\nayúdeme por favor,, help me please\nclaro que sí,, of course\nclaro que no,, of course not\nestoy de acuerdo,, I agree\nno estoy de acuerdo,, I do not agree\nestá bien,, it is okay or alright\nestá mal,, it is wrong or bad\nvale,, okay for Spain\ndiga,, hello when answering the phone\nhasta luego,, see you later\nhasta pronto,, see you soon\nhasta mañana,, see you tomorrow\nadiós,, goodbye\ncuídate,, take care\nnos vemos,, see you\nbuena suerte,, good luck\nfelicitaciones,, congratulations\nfeliz cumpleaños,, happy birthday\nbuen provecho,, enjoy your meal\nbienvenido,, welcome\n¿cuánto cuesta?,, how much does it cost\nes muy caro,, it is very expensive\nes barato,, it is cheap\nla cuenta por favor,, the check please\n¿dónde está el baño?,, where is the bathroom\nestoy perdido,, I am lost\n¿me puede ayudar?,, can you help me\ntengo una pregunta,, I have a question\nqué lástima,, what a pity\nqué pena,, what a shame\nqué guay,, how cool\nqué padre,, how cool for Mexico\nno pasa nada,, nothing is wrong\nestoy cansado,, I am tired\nestoy feliz,, I am happy\nestoy triste,, I am sad\nme gusta,, I like it\nno me gusta,, I do not like it\nme encanta,, I love it\nte quiero,, I love you or I want you\nte amo,, I love you for romantic partners\ntengo que irme,, I have to go\nya vuelvo,, I will be right back\nespere un momento,, wait a moment\n¿qué quieres?,, what do you want\n¿adónde vas?,, where are you going\nvamos,, let's go\nmira,, look\nescucha,, listen\nten cuidado,, be careful\nno te preocupes,, do not worry\n¿en serio?,, seriously\nde verdad,, really\npor supuesto,, of course\ntal vez,, maybe\nquizás,, perhaps\na lo mejor,, maybe or probably\nbuena idea,, good idea\nno creo,, I do not think so\nme parece bien,, sounds good to me\nme da igual,, it is all the same to me\nno me importa,, I do not care\n¿qué piensas?,, what do you think\ndime,, tell me\ncuéntame,, tell me about it\nya lo sé,, I already know it\nya está,, that is it or it is done\nhace calor,, it is hot weather\nhace frío,, it is cold weather\nhace buen tiempo,, the weather is nice\nestá lloviendo,, it is raining\nestá nevando,, it is snowing\ntengo prisa,, I am in a hurry\ntómate tu tiempo,, take your time\ndespacio,, slowly\nmás rápido,, faster\narriba,, up\nabajo,, down\nderecha,, right\nizquierda,, left\ntodo recto,, straight ahead\naquí mismo,, right here\nallí,, there\nallá,, over there\n¿quién es?,, who is it\n¿por qué?,, why\nporque,, because\n¿cuándo?,, when\n¿dónde?,, where\n¿cómo?,, how\n¿cuál?,, which one\n¿cuántos?,, how many\nsiempre,, always\nnunca,, never\na veces,, sometimes\nahora,, now\nmás tarde,, later\ntemprano,, early\ntarde,, late\nhoy,, today\nayer,, yesterday\nmañana,, tomorrow\nanoche,, last night\nla semana pasada,, last week\nel mes que viene,, next month\nhace mucho tiempo,, a long time ago\nde vez en cuando,, once in a while\na menudo,, often\npoco a poco,, bit by bit\npor fin,, finally\npor fin solo,, alone at last\nen vez de,, instead of\nsin embargo,, however\nademás,, besides\nmientras tanto,, meanwhile\npor lo menos,, at least\npor lo tanto,, therefore\nde hecho,, in fact\nen realidad,, actually\nde todas formas,, anyway\nsobre todo,, especially\na propósito,, by the way\npor cierto,, by the way\ntengo ganas de,, I feel like or I want to\nni modo,, no way or oh well\nqué asco,, how disgusting\nqué rico,, how delicious\nqué sueño,, I am so sleepy\nqué calor,, it is so hot\nviva,, long live\nsalud,, cheers or bless you\n¿qué onda?,, what is up for Mexico\nni hablar,, no way or do not even talk about it\nno me digas,, you do not say\nasí es,, that is how it is\nasí que,, so then\nes decir,, that is to say\npor ejemplo,, for example\nen mi opinión,, in my opinion\ncreo que sí,, I think so\ncreo que no,, I do not think so\nes verdad,, it is true\nes mentira,, it is a lie\nestás loco,, you are crazy\nqué ridículo,, how ridiculous\nqué tonto,, how silly\nqué suerte,, how lucky\nno vale la pena,, it is not worth it\nya basta,, that is enough\nvale la pena,, it is worth it\nme hace falta,, I need it\nme falta,, I am missing\npásalo bien,, have a good time\nque te diviertas,, have fun\nque te mejores,, get well soon\nbuen viaje,, have a good trip\nbien hecho,, well done\npoco común,, unusual\notra vez,, again\nuna vez más,, one more time\nde nuevo,, again or anew"
+        },
         states: { 
             name: "50 States & Capitals", 
             data: "Montgomery: Alabama\nJuneau: Alaska\nPhoenix: Arizona\nLittle Rock: Arkansas\nSacramento: California\nDenver: Colorado\nHartford: Connecticut\nDover: Delaware\nTallahassee: Florida\nAtlanta: Georgia\nHonolulu: Hawaii\nBoise: Idaho\nSpringfield: Illinois\nIndianapolis: Indiana\nDes Moines: Iowa\nTopeka: Kansas\nFrankfort: Kentucky\nBaton Rouge: Louisiana\nAugusta: Maine\nAnnapolis: Maryland\nBoston: Massachusetts\nLansing: Michigan\nSt. Paul: Minnesota\nJackson: Mississippi\nJefferson City: Missouri\nHelena: Montana\nLincoln: Nebraska\nCarson City: Nevada\nConcord: New Hampshire\nTrenton: New Jersey\nSanta Fe: New Mexico\nAlbany: New York\nRaleigh: North Carolina\nBismarck: North Dakota\nColumbus: Ohio\nOklahoma City: Oklahoma\nSalem: Oregon\nHarrisburg: Pennsylvania\nProvidence: Rhode Island\nColumbia: South Carolina\nPierre: South Dakota\nNashville: Tennessee\nAustin: Texas\nSalt Lake City: Utah\nMontpelier: Vermont\nRichmond: Virginia\nOlympia: Washington\nCharleston: West Virginia\nMadison: Wisconsin\nCheyenne: Wyoming" 
@@ -313,7 +326,7 @@
         app = {
             activeId: defaultId,
             lists: {},
-            voice: true, speed: 1.0, tempo: 3, darkMode: false
+            voice: true, speed: 1.0, tempo: 2, darkMode: false
         };
         app.lists[defaultId] = { 
             name: templates.states.name, 
@@ -370,6 +383,15 @@
         
         if (tabName === 'vault') renderLib();
         if (tabName === 'editor') updateUI(); 
+    }
+
+    function startBlankStack() {
+        const id = 'L' + Date.now();
+        app.lists[id] = { name: "", items: [], date: "" };
+        app.activeId = id;
+        save();
+        switchTab('editor');
+        document.getElementById('batch-title').focus();
     }
 
     function processPastedSharedText(text) {
@@ -436,7 +458,7 @@
             
             b.innerHTML = `
                 <div class="lib-title">${item.name}</div>
-                <div class="lib-desc">${item.items.length} cards • Last Edit: ${item.date}</div>
+                <div class="lib-desc">${item.items.length} cards • Last Edit: ${item.date || 'Unsaved'}</div>
                 <div class="vault-actions">
                     <button onclick="loadFromVault('${id}')">Load</button>
                     <button onclick="editFromVault('${id}')">Edit</button>
@@ -481,17 +503,6 @@
             if(app.activeId === id) { app.activeId = Object.keys(app.lists)[0]; }
             save();
             renderLib();
-        }
-    }
-
-    function createNewList() {
-        const name = prompt("Enter a name for your new Stack:");
-        if (name) {
-            const id = 'L' + Date.now();
-            app.lists[id] = { name: name, items: [], date: getTimestamp() };
-            app.activeId = id;
-            save();
-            switchTab('editor');
         }
     }
 
