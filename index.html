@@ -5,23 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>StackBot360 by 360 Solutions</title>
     <style>
-        /* =========================================
-           CSS VARIABLES & THEME
-           Change colors here for the whole app
-        ========================================= */
+        /* CSS VARIABLES & THEMES */
         :root {
             --bg-color: #f4f6f8;
             --panel-bg: #ffffff;
             --text-dark: #1f2328;
             --text-dim: #656d76;
-            --brand-color: #0969da; /* StackBot Blue */
+            --brand-color: #0969da;
             --border-color: #d0d7de;
             --success-color: #2da44e;
         }
 
-        /* =========================================
-           BASE STYLES & MOBILE OPTIMIZATION
-        ========================================= */
+        /* DARK MODE OVERRIDES */
+        body.dark-mode {
+            --bg-color: #0d1117;
+            --panel-bg: #161b22;
+            --text-dark: #c9d1d9;
+            --text-dim: #8b949e;
+            --brand-color: #58a6ff;
+            --border-color: #30363d;
+            --success-color: #238636;
+        }
+
+        /* BASE STYLES */
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
@@ -34,11 +40,9 @@
             width: 100vw; 
             box-sizing: border-box;
             overflow-x: hidden;
-            user-select: none; 
-            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* View Containers handle which screen is showing */
         .view-container {
             width: 100%; 
             max-width: 400px; 
@@ -48,30 +52,34 @@
             gap: 15px;
         }
         
-        #capture-view { display: flex; } /* Default starting view */
+        #capture-view { display: flex; }
 
-        /* =========================================
-           HEADER & TYPOGRAPHY
-        ========================================= */
-        .header { text-align: center; margin-bottom: 5px; }
+        /* HEADER */
+        .header { text-align: center; margin-bottom: 5px; position: relative;}
         .header h1 { margin: 0; font-size: 28px; color: var(--brand-color); font-weight: 900; letter-spacing: -0.5px;}
         .brand-tag { font-size: 10px; color: var(--text-dim); text-transform: uppercase; font-weight: bold; letter-spacing: 1px;}
+        
+        .theme-toggle { position: absolute; top: 0; right: 0; background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px;}
 
-        .active-list-bar { background: #ddf4ff; border: 1px solid #54aeff; border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; }
+        .active-list-bar { background: var(--panel-bg); border: 2px solid var(--brand-color); border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; }
         .active-list-label { font-size: 10px; color: var(--brand-color); text-transform: uppercase; font-weight: 900;}
-        .active-list-name { font-size: 18px; font-weight: bold; color: var(--text-dark); margin-top: 4px;}
+        .active-list-name { font-size: 18px; font-weight: bold; margin-top: 4px;}
 
-        /* =========================================
-           INPUTS & BUTTONS
-        ========================================= */
-        textarea {
+        /* INPUTS & BUTTONS */
+        textarea, input[type="text"] {
             width: 100%; padding: 15px; box-sizing: border-box;
-            border: 2px solid var(--border-color); border-radius: 8px; font-size: 18px;
-            resize: none; font-family: inherit;
+            background: var(--panel-bg); color: var(--text-dark);
+            border: 2px solid var(--border-color); border-radius: 8px; font-size: 16px;
+            font-family: inherit;
         }
         
         #single-input { height: 100px; text-align: center; font-weight: bold;}
-        #batch-input { font-size: 14px; white-space: pre-wrap; height: 350px;}
+        #batch-input { font-size: 14px; white-space: pre-wrap; height: 250px; resize: none;}
+        
+        .meta-input-group { display: flex; gap: 10px; }
+        .meta-input-group input { padding: 10px; font-size: 14px; }
+        #batch-title { flex: 2; font-weight: bold;}
+        #batch-date { flex: 1; text-align: center; color: var(--text-dim);}
 
         button {
             border: none; border-radius: 8px; font-weight: bold; font-size: 14px;
@@ -79,19 +87,17 @@
         }
 
         .btn-primary { background: var(--brand-color); color: white; width: 100%; }
-        .btn-secondary { background: #e8ecf1; color: var(--text-dark); border: 1px solid var(--border-color); width: 100%; }
-        .btn-play { background: var(--success-color); color: white; width: 100%; padding: 18px; font-size: 18px; margin-top: 10px; border-bottom: 4px solid #238636;}
-        .btn-danger { background: #ffebe9; color: #cf222e; border: 1px solid #ff8182; width: 100%; }
+        .btn-secondary { background: var(--panel-bg); color: var(--text-dark); border: 1px solid var(--border-color); width: 100%; }
+        .btn-play { background: var(--success-color); color: white; width: 100%; padding: 18px; font-size: 18px; margin-top: 10px;}
+        .btn-danger { background: transparent; color: #cf222e; border: 1px solid #cf222e; width: 100%; }
 
-        .row-btns { display: flex; gap: 10px; }
-        .row-btns button { flex: 1; }
+        .row-btns { display: flex; gap: 10px; flex-wrap: wrap;}
+        .row-btns button { flex: 1; padding: 10px; font-size: 12px;}
 
-        /* =========================================
-           LIBRARY & CARDS
-        ========================================= */
+        /* LIBRARY & CARDS */
         .lib-section-title { font-size: 11px; font-weight: 900; color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px; margin-top: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
         .library-list { display: flex; flex-direction: column; gap: 8px; }
-        .lib-item { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;}
+        .lib-item { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center; color: var(--text-dark);}
         .lib-title { font-size: 15px; font-weight: bold;}
         .lib-desc { font-size: 11px; color: var(--text-dim); margin-top: 3px;}
 
@@ -99,11 +105,10 @@
             background: var(--panel-bg); border: 2px solid var(--border-color); border-radius: 12px;
             min-height: 220px; display: flex; justify-content: center; align-items: center;
             padding: 20px; text-align: center; margin: 15px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         .card-term { font-size: 34px; font-weight: 900; line-height: 1.2; word-wrap: break-word; }
 
-        .settings-panel { background: #ffffff; border: 2px solid var(--border-color); border-radius: 12px; padding: 15px; font-size: 12px; font-weight: bold; color: var(--text-dim);}
+        .settings-panel { background: var(--panel-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 15px; font-size: 12px; font-weight: bold; color: var(--text-dim);}
         input[type=range] { width: 100%; accent-color: var(--brand-color); margin-top: 5px; margin-bottom: 15px;}
     </style>
 </head>
@@ -113,21 +118,20 @@
         <div class="header">
             <h1>StackBot360</h1>
             <div class="brand-tag">By 360 Solutions</div>
+            <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
         </div>
 
         <div class="active-list-bar" onclick="showView('library-view')">
             <div class="active-list-label">Currently Active Stack:</div>
             <div id="active-list-title-display" class="active-list-name">Loading...</div>
-            <div style="font-size: 10px; margin-top: 5px; color: var(--text-dim);">Tap to change lists</div>
         </div>
 
         <textarea id="single-input" placeholder="Type or paste a phrase here..."></textarea>
         <button class="btn-primary" onclick="saveSingleMemo()">➕ Add to Current Stack</button>
         
-        <div style="text-align:center; color:var(--border-color); font-weight:900; margin:5px 0;">OR</div>
+        <div style="text-align:center; color:var(--text-dim); font-weight:900; margin:5px 0; font-size: 12px;">OR</div>
         
         <button class="btn-secondary" onclick="openBatchEditor()">📝 View/Edit Full Stack</button>
-
         <button class="btn-play" id="start-btn" onclick="startReviewMode()">▶ START BOT (0)</button>
     </div>
 
@@ -153,22 +157,25 @@
 
     <div id="batch-view" class="view-container">
         <div class="header"><h1>Stack Editor</h1></div>
-        <div style="font-size: 12px; color: var(--text-dim); text-align: center; margin-bottom: 10px;">
-            Paste a shared list here, or copy this to share!
+        
+        <div class="meta-input-group">
+            <input type="text" id="batch-title" placeholder="Stack Title">
+            <input type="text" id="batch-date" placeholder="Date">
         </div>
+        
+        <textarea id="batch-input" placeholder="Paste your list here, one item per line."></textarea>
         
         <div class="row-btns">
-            <button class="btn-secondary" onclick="sortBatch('az')">Sort A-Z</button>
-            <button class="btn-secondary" onclick="sortBatch('za')">Sort Z-A</button>
+            <button class="btn-secondary" onclick="sortBatch('az')">A - Z</button>
+            <button class="btn-secondary" onclick="sortBatch('za')">Z - A</button>
+            <button class="btn-secondary" onclick="sortBatch('reverse')">Reverse Order</button>
         </div>
-
-        <textarea id="batch-input"></textarea>
         
-        <button class="btn-primary" onclick="copyBatchToClipboard()">📋 COPY TO CLIPBOARD</button>
-        <button class="btn-success" onclick="saveBatch()" style="background: var(--success-color); color: white;">💾 SAVE CHANGES</button>
+        <button class="btn-primary" onclick="saveBatch()">💾 SAVE CHANGES</button>
+        <button class="btn-secondary" onclick="saveAsNew()" style="border-color: var(--brand-color); color: var(--brand-color);">📄 SAVE AS NEW (COPY)</button>
         
         <div class="row-btns" style="margin-top: 10px;">
-            <button class="btn-secondary" onclick="renameCurrentList()">Rename</button>
+            <button class="btn-secondary" onclick="copyBatchToClipboard()">📋 Copy List</button>
             <button class="btn-danger" onclick="deleteCurrentList()">Delete Stack</button>
         </div>
         
@@ -191,23 +198,19 @@
         
         <div class="settings-panel">
             <button id="voice-btn" class="btn-secondary" onclick="toggleVoice()" style="margin-bottom:15px; width: 100%;">🔊 VOICE: ON</button>
-            
             <div style="display: flex; justify-content: space-between;"><span>Voice Speed</span><span id="speed-val">1x</span></div>
             <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="updateSpeed(this.value)">
-            
             <div style="display: flex; justify-content: space-between;"><span>Bot Tempo (Wait Time)</span><span id="tempo-val">3s</span></div>
             <input type="range" id="tempo-slider" min="1" max="15" value="3" oninput="updateTempo(this.value)">
         </div>
     </div>
 
 <script>
-    /* =========================================
-       1. FACTORY TEMPLATES (READ-ONLY)
-    ========================================= */
+    /* 1. FACTORY TEMPLATES */
     const templates = {
         states: { 
             name: "50 States & Capitals", 
-            data: "Alabama: Montgomery\nAlaska: Juneau\nArizona: Phoenix\nArkansas: Little Rock\nCalifornia: Sacramento\nColorado: Denver\nConnecticut: Hartford\nDelaware: Dover\nFlorida: Tallahassee\nGeorgia: Atlanta\nHawaii: Honolulu\nIdaho: Boise\nIllinois: Springfield\nIndiana: Indianapolis\nIowa: Des Moines\nKansas: Topeka\nKentucky: Frankfort\nLouisiana: Baton Rouge\nMaine: Augusta\nMaryland: Annapolis\nMassachusetts: Boston\nMichigan: Lansing\nMinnesota: St. Paul\nMississippi: Jackson\nMissouri: Jefferson City\nMontana: Helena\nNebraska: Lincoln\nNevada: Carson City\nNew Hampshire: Concord\nNew Jersey: Trenton\nNew Mexico: Santa Fe\nNew York: Albany\nNorth Carolina: Raleigh\nNorth Dakota: Bismarck\nOhio: Columbus\nOklahoma: Oklahoma City\nOregon: Salem\nPennsylvania: Harrisburg\nRhode Island: Providence\nSouth Carolina: Columbia\nSouth Dakota: Pierre\nTennessee: Nashville\nTexas: Austin\nUtah: Salt Lake City\nVermont: Montpelier\nVirginia: Richmond\nWashington: Olympia\nWest Virginia: Charleston\nWisconsin: Madison\nWyoming: Cheyenne" 
+            data: "Montgomery: Alabama\nJuneau: Alaska\nPhoenix: Arizona\nLittle Rock: Arkansas\nSacramento: California\nDenver: Colorado\nHartford: Connecticut\nDover: Delaware\nTallahassee: Florida\nAtlanta: Georgia\nHonolulu: Hawaii\nBoise: Idaho\nSpringfield: Illinois\nIndianapolis: Indiana\nDes Moines: Iowa\nTopeka: Kansas\nFrankfort: Kentucky\nBaton Rouge: Louisiana\nAugusta: Maine\nAnnapolis: Maryland\nBoston: Massachusetts\nLansing: Michigan\nSt. Paul: Minnesota\nJackson: Mississippi\nJefferson City: Missouri\nHelena: Montana\nLincoln: Nebraska\nCarson City: Nevada\nConcord: New Hampshire\nTrenton: New Jersey\nSanta Fe: New Mexico\nAlbany: New York\nRaleigh: North Carolina\nBismarck: North Dakota\nColumbus: Ohio\nOklahoma City: Oklahoma\nSalem: Oregon\nHarrisburg: Pennsylvania\nProvidence: Rhode Island\nColumbia: South Carolina\nPierre: South Dakota\nNashville: Tennessee\nAustin: Texas\nSalt Lake City: Utah\nMontpelier: Vermont\nRichmond: Virginia\nOlympia: Washington\nCharleston: West Virginia\nMadison: Wisconsin\nCheyenne: Wyoming" 
         },
         presidents: { 
             name: "US Presidents", 
@@ -215,18 +218,17 @@
         }
     };
 
-    /* =========================================
-       2. LOCAL STORAGE & APP STATE
-    ========================================= */
-    let app = JSON.parse(localStorage.getItem('stackBotV6')) || {
+    /* 2. LOCAL STORAGE & APP STATE */
+    let app = JSON.parse(localStorage.getItem('stackBotV7')) || {
         activeId: 'default',
         lists: { 'default': { name: "My First Stack", items: [], date: new Date().toLocaleDateString() } },
-        voice: true, speed: 1.0, tempo: 3
+        voice: true, speed: 1.0, tempo: 3, darkMode: false
     };
 
     let deck = [], history = [], hIndex = -1, timer = null, isPaused = false, countdown = app.tempo;
 
     window.onload = () => {
+        if(app.darkMode) document.body.classList.add('dark-mode');
         updateUI();
         document.getElementById('speed-slider').value = app.speed;
         document.getElementById('tempo-slider').value = app.tempo;
@@ -236,15 +238,18 @@
     };
 
     function save() {
-        localStorage.setItem('stackBotV6', JSON.stringify(app));
+        localStorage.setItem('stackBotV7', JSON.stringify(app));
         updateUI();
     }
 
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        app.darkMode = document.body.classList.contains('dark-mode');
+        save();
+    }
+
     function updateUI() {
-        // Ensure an active list exists, fallback if deleted
-        if (!app.lists[app.activeId]) {
-            app.activeId = Object.keys(app.lists)[0]; 
-        }
+        if (!app.lists[app.activeId]) { app.activeId = Object.keys(app.lists)[0]; }
         const active = app.lists[app.activeId];
         document.getElementById('active-list-title-display').innerText = active.name;
         document.getElementById('start-btn').innerText = `▶ START BOT (${active.items.length})`;
@@ -256,9 +261,7 @@
         if (id === 'library-view') renderLib();
     }
 
-    /* =========================================
-       3. LIST CREATION & PARSING (THE PHILOSOPHY)
-    ========================================= */
+    /* 3. BATCH EDITOR & DATA LOGIC */
     function saveSingleMemo() {
         const val = document.getElementById('single-input').value.trim();
         if (val) {
@@ -268,62 +271,58 @@
         }
     }
 
-    // Opens Batch Editor and formats the text for sharing
     function openBatchEditor() {
         const active = app.lists[app.activeId];
-        let textData = `Title: ${active.name}\nDate: ${active.date}\n\n`;
-        textData += active.items.join('\n');
-        document.getElementById('batch-input').value = textData;
+        document.getElementById('batch-title').value = active.name;
+        document.getElementById('batch-date').value = active.date;
+        document.getElementById('batch-input').value = active.items.join('\n');
         showView('batch-view');
     }
 
-    // Saves Batch Editor and parses the Title if someone pasted a shared list
     function saveBatch() {
         let lines = document.getElementById('batch-input').value.split('\n').map(l => l.trim()).filter(l => l);
+        app.lists[app.activeId].name = document.getElementById('batch-title').value || "Untitled Stack";
+        app.lists[app.activeId].date = document.getElementById('batch-date').value || new Date().toLocaleDateString();
+        app.lists[app.activeId].items = lines;
+        save();
+        showView('capture-view');
+    }
+
+    function saveAsNew() {
+        let lines = document.getElementById('batch-input').value.split('\n').map(l => l.trim()).filter(l => l);
+        const newName = (document.getElementById('batch-title').value || "Untitled") + " (Copy)";
+        const id = 'L' + Date.now();
         
-        let newName = app.lists[app.activeId].name;
-        let newDate = app.lists[app.activeId].date;
-        let parsedItems = [];
-
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].toLowerCase().startsWith('title:')) {
-                newName = lines[i].substring(6).trim(); // Extract everything after "Title:"
-            } else if (lines[i].toLowerCase().startsWith('date:')) {
-                newDate = lines[i].substring(5).trim();
-            } else {
-                parsedItems.push(lines[i]); // Regular flashcard
-            }
-        }
-
-        app.lists[app.activeId].name = newName;
-        app.lists[app.activeId].date = newDate;
-        app.lists[app.activeId].items = parsedItems;
+        app.lists[id] = { 
+            name: newName, 
+            items: lines, 
+            date: new Date().toLocaleDateString() 
+        };
+        app.activeId = id; // Switch to the new copy
         save();
         showView('capture-view');
     }
 
     function copyBatchToClipboard() {
-        const text = document.getElementById('batch-input').value;
-        navigator.clipboard.writeText(text).then(() => {
+        const title = document.getElementById('batch-title').value;
+        const date = document.getElementById('batch-date').value;
+        const items = document.getElementById('batch-input').value;
+        const fullText = `Title: ${title}\nDate: ${date}\n\n${items}`;
+        
+        navigator.clipboard.writeText(fullText).then(() => {
             alert("Stack copied to clipboard! Ready to share.");
         });
     }
 
     function sortBatch(dir) {
-        // Strip metadata lines out before sorting
         let lines = document.getElementById('batch-input').value.split('\n').map(l => l.trim()).filter(l => l);
-        let meta = lines.filter(l => l.toLowerCase().startsWith('title:') || l.toLowerCase().startsWith('date:'));
-        let items = lines.filter(l => !l.toLowerCase().startsWith('title:') && !l.toLowerCase().startsWith('date:'));
-        
-        items.sort();
-        if (dir === 'za') items.reverse();
-        
-        document.getElementById('batch-input').value = meta.join('\n') + '\n\n' + items.join('\n');
+        if (dir === 'az') lines.sort();
+        if (dir === 'za') { lines.sort(); lines.reverse(); }
+        if (dir === 'reverse') lines.reverse(); // Flips top to bottom
+        document.getElementById('batch-input').value = lines.join('\n');
     }
 
-    /* =========================================
-       4. LIBRARY MANAGEMENT
-    ========================================= */
+    /* 4. LIBRARY MANAGEMENT */
     function renderLib() {
         const container = document.getElementById('user-lists-container');
         container.innerHTML = '';
@@ -332,7 +331,7 @@
             const b = document.createElement('div');
             b.className = 'lib-item';
             b.style.cursor = 'pointer';
-            b.innerHTML = `<div><div class="lib-title">${item.name}</div><div class="lib-desc">${item.items.length} cards • Edited: ${item.date}</div></div>`;
+            b.innerHTML = `<div><div class="lib-title">${item.name}</div><div class="lib-desc">${item.items.length} cards • ${item.date}</div></div>`;
             b.onclick = () => { app.activeId = id; save(); showView('capture-view'); };
             container.appendChild(b);
         });
@@ -349,7 +348,6 @@
         }
     }
 
-    // Clones a hardcoded template into a personal list
     function loadTemplate(key) {
         const id = 'L' + Date.now();
         app.lists[id] = { 
@@ -362,16 +360,6 @@
         showView('capture-view');
     }
 
-    function renameCurrentList() {
-        const n = prompt("Rename this Stack:", app.lists[app.activeId].name);
-        if (n) { 
-            app.lists[app.activeId].name = n; 
-            app.lists[app.activeId].date = new Date().toLocaleDateString();
-            save(); 
-            openBatchEditor(); // Refresh text box
-        }
-    }
-
     function deleteCurrentList() {
         if (Object.keys(app.lists).length <= 1) {
             alert("You cannot delete your only stack. Create a new one first.");
@@ -379,15 +367,13 @@
         }
         if (confirm("WARNING: Be sure you have copied and saved this list elsewhere. Deletion is permanent. Proceed?")) {
             delete app.lists[app.activeId];
-            app.activeId = Object.keys(app.lists)[0]; // Switch to next available
+            app.activeId = Object.keys(app.lists)[0]; 
             save();
             showView('capture-view');
         }
     }
 
-    /* =========================================
-       5. BOT PLAYBACK ENGINE
-    ========================================= */
+    /* 5. BOT PLAYBACK ENGINE */
     function startReviewMode() {
         if (!app.lists[app.activeId].items.length) return;
         showView('playback-view');
@@ -437,7 +423,7 @@
     function togglePlayPause() { 
         isPaused = !isPaused; 
         document.getElementById('play-pause-btn').innerText = isPaused ? "▶ PLAY BOT" : "⏸ PAUSE BOT"; 
-        if(isPaused) window.speechSynthesis.cancel(); // Stop talking immediately on pause
+        if(isPaused) window.speechSynthesis.cancel();
     }
     
     function toggleVoice() { app.voice = !app.voice; save(); updateVoiceBtn(); if(!app.voice) window.speechSynthesis.cancel();}
@@ -453,4 +439,3 @@
 </script>
 </body>
 </html>
-
